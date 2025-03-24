@@ -5,6 +5,35 @@ export interface User {
   name: string;
 }
 
+export interface Profile {
+  id: number;
+  user_id: string;
+  fcm_token?: string;
+  name?: string;
+  email: string;
+  gender?: string;
+  dob?: string;
+  tag?: string[];
+  range?: number;
+  last_loc?: any;
+  com_id?: string;
+  requests?: string[];
+  image_link?: string;
+  created_at: string;
+}
+
+export interface Community {
+  id: number;
+  com_id: string;
+  title: string;
+  desc: string;
+  logo_link?: string;
+  tags: string;
+  accepted: boolean;
+  location?: any;
+  created_at: string;
+}
+
 export interface Request {
   id: string;
   user_id: string;
@@ -15,6 +44,6 @@ export interface Request {
 
 export interface DashboardStats {
   totalUsers: number;
-  totalRequests: number;
-  rejectedRequests: number;
+  totalCommunities: number;
+  pendingCommunities: number;
 }
