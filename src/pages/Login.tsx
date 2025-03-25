@@ -11,17 +11,22 @@ export const Login: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      if (email === adminEmail && password === adminPassword) {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
-      if (error) {
-        if (error.message === 'Invalid login credentials') {
-          throw new Error('Invalid email or password. Please check your credentials and try again.');
+        if (error) {
+          throw new Error('Authentication failed');
         }
-        throw error;
+
+        navigate('/');
+      } else {
+        throw new Error('Invalid credentials');
       }
       navigate('/');
     } catch (err: any) {
@@ -36,13 +41,13 @@ export const Login: React.FC = () => {
           <Lock className="w-12 h-12 text-blue-500" />
         </div>
         <h1 className="text-2xl font-bold text-center mb-6">Admin Login</h1>
-        
+
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
             {error}
           </div>
         )}
-        
+
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -57,7 +62,7 @@ export const Login: React.FC = () => {
               required
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password
@@ -71,7 +76,7 @@ export const Login: React.FC = () => {
               required
             />
           </div>
-          
+
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
